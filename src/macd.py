@@ -1,16 +1,4 @@
-################################################################################
-#                Copyright (c) 2009 Omni Wireless Communication Inc
-#       All rights are reserved. Reproduction in whole or in parts is
-#       prohibited without the written consent of the copyright owner.
-#
-#               Address:  3755 avocado Blvd
-#                         Suite 434
-#                         La Mesa, Ca, 91941
-#
-#               Tel:    619-378-6000
-#               Web:    www.omniwcomm.net
-#
-################################################################################
+
 from numpy import *
 from scipy import *
 import moving_average

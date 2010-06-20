@@ -1,25 +1,10 @@
-################################################################################
-#				Copyright (c) 2009 Omni Wireless Communication Inc
-#	   All rights are reserved. Reproduction in whole or in parts is
-#	   prohibited without the written consent of the copyright owner.
-#
-#			   Address:  3755 avocado Blvd
-#						 Suite 434
-#						 La Mesa, Ca, 91941
-#
-#			   Tel:	619-378-6000
-#			   Web:	www.omniwcomm.net
-#
-################################################################################
+
 from numpy import *
 from scipy import *
 
-import moving_average
 from matplotlib.finance import quotes_historical_yahoo
+from datetime import date, timedelta
 import sys
-from datetime import date,timedelta
-
-import matplotlib.pyplot as plt
 
 
 ##############################################################################
@@ -56,6 +41,13 @@ class HistoricalDataObj:
         self.N          = 0;
         ## Quotes raw data created by data feed.
         self.quotes     = [];
+    ## Same as above but the range is from today to days back
+    def initialize( self, stockTicker, daysBack, interval = 1, resolution = 1, dataFeedType = "yahoo"):  
+        # start data
+        date1 = date.today() - timedelta(days=daysBack)
+        # end
+        date2 = date.today()
+        self.initialize1(stockTicker, date1, date2, interval, resolution, dataFeedType)                    
     ##############################################################################
     ## Initialization routine
     # @param symbol symbol of historical data to be retrieved
@@ -65,7 +57,7 @@ class HistoricalDataObj:
     #   2, would return samples for every other day.
     # @param resolition, is allways 1
     # @param dataFeedType - data feed up, currently onlys supporting yahoo.
-    def initialize( self,stockTicker, date1, date2, interval = 1, resolution = 1, dataFeedType = "yahoo"):
+    def initialize1( self,stockTicker, date1, date2, interval, resolution, dataFeedType):
 
         self.stockTicker = stockTicker;
         if(dataFeedType =="yahoo"):
@@ -90,3 +82,4 @@ class HistoricalDataObj:
             self.vLow[index]    = lines [4];
             self.vVolume[index] = lines [5];
             index =  index +1;
+    

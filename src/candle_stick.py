@@ -1,16 +1,4 @@
 ################################################################################
-#				Copyright (c) 2009 Omni Wireless Communication Inc
-#	   All rights are reserved. Reproduction in whole or in parts is
-#	   prohibited without the written consent of the copyright owner.
-#
-#			   Address:  3755 avocado Blvd
-#						 Suite 434
-#						 La Mesa, Ca, 91941
-#
-#			   Tel:	619-378-6000
-#			   Web:	www.omniwcomm.net
-#
-################################################################################
 #!/usr/bin/env python
 import sys
 from pylab import *
@@ -19,8 +7,7 @@ from matplotlib.dates import  DateFormatter, WeekdayLocator, HourLocator, \
 from matplotlib.finance import quotes_historical_yahoo, candlestick,\
      plot_day_summary, candlestick2
 
-import datetime
-from datetime import date,timedelta
+from datetime import timedelta
 
 def candleSticks(quotes):
     mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays

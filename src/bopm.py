@@ -1,9 +1,12 @@
+################################################################################
+# Author - Ray Salem
+# Description
+# Creation date
+# History
 # References
 # - http://www.hoadley.net/options/bs.htm
 # - http://en.wikipedia.org/wiki/Binomial_options_pricing_model
 # - http://en.wikipedia.org/wiki/Log-normal_distribution
-
-
 # Notes
 #  - Original author of BOPM is  "Cox, Ross and Rubinstein "
 #  - volatility is equal to variance, but is express as a percentage. 
@@ -11,6 +14,7 @@
 #
 #
 #
+################################################################################
 from numpy import *
 from scipy import *
 
