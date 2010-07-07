@@ -17,20 +17,20 @@ from scipy import *
 
 # Period of each stage, for example, every stage will represent 2 days.
 T = 1;
-volatility =  30 / 100.0;
+volatility =  39.5 / 100.0;
 # based on log-normal distribution
 u = exp(sqrt(T/365.0) * volatility);
 # Recipocal of the up, such that a good follow by a bad, results in the original value
 d = 1/u;
-r = 0.1 * T/365.0;
+r = 1/100.0 * T/365.0;
 # compute probability of a up
 p = (1 + r - d) / (u - d);
 q = 1-p;
 
-spotPrice =50;
-strikePrice =50;
+spotPrice   = 133.88;
+strikePrice = 135;
 
-periods = 3;
+periods = 9;
 Y = zeros(periods);
 
 
@@ -42,6 +42,7 @@ nu = numStates -1;
 nd = 0
 for index in arange(0, numStates):
     Y[index] = max(spotPrice * u**nu * d**nd - strikePrice, 0);
+#    Y[index] = max(-1 * spotPrice * u**nu * d**nd + strikePrice, 0);
     nu = nu - 1;
     nd = nd + 1;
 

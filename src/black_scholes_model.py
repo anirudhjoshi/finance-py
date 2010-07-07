@@ -5,6 +5,7 @@
 # History
 # References
 #			- Options as a strategic investment
+#                       - http://www.quickmba.com/finance/black-scholes/
 # Notes
 #			- ln is the normal logarithm
 #			- N(x) is the CDF of the a stnard normal distribution. 
@@ -42,13 +43,13 @@ def erf(x):
     return sign*y # erf(-x) = -erf(x)
 
 # Stock price
-p = 132.26;
+p = 133.83;
 
 # Strike price
 s = 135;
 
 # Time remaining to expiration (unit is days)
-t = 10;
+t = 9;
 
 # Current Risk free interest rate. (unit is percentage) 
 r = 1;
@@ -68,7 +69,8 @@ d2 = d1- v * sqrt(t);
 # The function is the CDF for a stand normal distribution u=0, sigma = 1.
 N1 = 1/2 * (1 + erf(d1/sqrt(2)));
 N2 = 1/2 * (1 + erf(d2/sqrt(2)));
-price = p * N1 - s * exp(-r * t) * N2;
+callPrice = p * N1 - s * exp(-r * t) * N2;
+putPrice  = callPrice - p + s * exp(-r*t)
 
-
-print price
+print callPrice
+print putPrice
