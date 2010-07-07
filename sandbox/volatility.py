@@ -1,7 +1,6 @@
 ################################################################################
 # Author - Ray Salem
-# Description - Given a stock, it will plot the distributions of change and stock price
-#                versus the normal and log-normal distribution. 
+# Description -Computes volatility of a stock.
 # Creation date
 # History
 # References
@@ -9,8 +8,10 @@
 #
 #
 # References
-#            - Normal Distribution - http://mathworld.wolfram.com/NormalDistribution.html
-
+#            http://www.riskglossary.com/link/volatility.htm
+#            http://en.wikipedia.org/wiki/Volatility_(finance)
+# Online calculator
+#            http://www.optionistics.com/f/strategy_calculator
 
 ## include source path
 import sys
@@ -21,7 +22,7 @@ from historical_data_obj import *
 import matplotlib.pyplot as plt
 
 data = HistoricalDataObj()
-data.initialize('gs',365);
+data.initialize("bp",365);
 
 #  current minus the   previous
 delta  = data.vClose[1:] - data.vClose[:-1] ;
@@ -35,6 +36,5 @@ print(v2) * 100
 
 
 
-plt.hist(deltaLn)
-
+plt.hist(deltaLn * 100)
 plt.show()
