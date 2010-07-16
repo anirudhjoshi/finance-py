@@ -42,35 +42,34 @@ def erf(x):
     y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*math.exp(-x*x)
     return sign*y # erf(-x) = -erf(x)
 
+## 
+# Black Scholes Option Pricing Model (calculator)
 # Stock price
-p = 133.83;
-
+# p = 146.17;
 # Strike price
-s = 135;
-
+# s = 140;
 # Time remaining to expiration (unit is days)
-t = 9;
-
+# t = 35;
 # Current Risk free interest rate. (unit is percentage) 
-r = 1;
-
+# r = 1;
 #Volatility measured by annual standard deviation (unit is percentage)
-v = 39.79;
+# v = 37.92;#
+def bsm(p,s,t,r,v):
+    # normalize
+    r = r/100.0;
+    v = v/100.0;
+    t = t/365.0;
+    d1 = (log(p/s) + ( r + v**2 / 2.0 ) *t) / (v * sqrt(t));
+    d2 = d1- v * sqrt(t);
+    
 
+    # The function is the CDF for a stand normal distribution u=0, sigma = 1.
+    N1 = 1/2 * (1 + erf(d1/sqrt(2)));
+    N2 = 1/2 * (1 + erf(d2/sqrt(2)));
+    callPrice = p * N1 - s * exp(-r * t) * N2;
+    putPrice  = callPrice - p + s * exp(-r*t)
 
-# normalize
-r = r/100.0;
-v = v/100.0;
-t = t/365.0;
-d1 = (log(p/s) + ( r + v**2 / 2.0 ) *t) / (v * sqrt(t));
-d2 = d1- v * sqrt(t);
+    print callPrice
+    print putPrice
 
-
-# The function is the CDF for a stand normal distribution u=0, sigma = 1.
-N1 = 1/2 * (1 + erf(d1/sqrt(2)));
-N2 = 1/2 * (1 + erf(d2/sqrt(2)));
-callPrice = p * N1 - s * exp(-r * t) * N2;
-putPrice  = callPrice - p + s * exp(-r*t)
-
-print callPrice
-print putPrice
+    return callPrice

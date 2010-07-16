@@ -11,15 +11,37 @@
 #
 #
 #
+
+
+
+
 from numpy import *
 from scipy import *
+import sys
+sys.path.append("../src/")
+
+from historical_data_obj import * 
+from volatility import *
+from black_scholes_model import *
+
+data = HistoricalDataObj()
+# Use annual volatility. 
+data.initialize("gs",365); 
 
 
 # Period of each stage, for example, every stage will represent 2 days.
 T = 1;
-volatility =  39.5 / 100.0;
-# based on log-normal distribution
-u = exp(sqrt(T/365.0) * volatility);
+
+
+##
+#
+#   365 or 252
+##
+v = volatility(data.vClose) /100;
+#v =37.92/100
+print v
+# based on log-normal distribution, convert from annual to the Time period step
+u = exp(sqrt(T/365.0) * v);
 # Recipocal of the up, such that a good follow by a bad, results in the original value
 d = 1/u;
 r = 1/100.0 * T/365.0;
@@ -27,10 +49,10 @@ r = 1/100.0 * T/365.0;
 p = (1 + r - d) / (u - d);
 q = 1-p;
 
-spotPrice   = 133.88;
-strikePrice = 135;
+spotPrice   = 146.17
+strikePrice = 140;
 
-periods = 9;
+periods = 35;
 Y = zeros(periods);
 
 
