@@ -4,6 +4,8 @@ from scipy import *
 
 from matplotlib.finance import quotes_historical_yahoo
 from datetime import date, timedelta
+
+import quotes_historical_google
 import sys
 
 
@@ -11,7 +13,7 @@ import sys
 ## Historical Data Object
 #   STored in vectors where every element represents a single date
 #
-#
+# Google date feed needs more support for date range, date values
 #
 class HistoricalDataObj:
     """Historical Finance Data Object"""
@@ -26,7 +28,7 @@ class HistoricalDataObj:
         ## Stock ticker (symbol)
         self.stockTicker= ""
         ## Vectror of dates
-        self.vDates     = array([])
+        self.vDate      = array([])
         ## vector of open values
         self.vOpen      = array([])
         ## Vector closes
@@ -62,24 +64,25 @@ class HistoricalDataObj:
         self.stockTicker = stockTicker;
         if(dataFeedType =="yahoo"):
             self.quotes = quotes_historical_yahoo(self.stockTicker, date1, date2)
+            self.N          = self.quotes.__len__();
+            self.vDate      = zeros(self.N)
+            self.vOpen      = zeros(self.N)
+            self.vClose     = zeros(self.N)
+            self.vHigh      = zeros(self.N)
+            self.vLow       = zeros(self.N)
+            self.vVolume    = zeros(self.N)
 
-        self.N          = self.quotes.__len__();
-        self.vDates     = zeros(self.N)
-        self.vOpen      = zeros(self.N)
-        self.vClose     = zeros(self.N)
-        self.vHigh      = zeros(self.N)
-        self.vLow       = zeros(self.N)
-        self.vVolume    = zeros(self.N)
+            index = 0;
+            for lines in self.quotes:
+                self.vDate[index]  = lines [0];
+                self.vOpen[index]   = lines [1];
+                self.vClose[index]  = lines [2];
+                self.vHigh[index]   = lines [3];
+                self.vLow[index]    = lines [4];
+                self.vVolume[index] = lines [5];
+                index =  index +1;
+        elif (dataFeedType == "google"):
+            self.vDate, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(self.stockTicker);
+            self.N = size(self.vDate);
 
-
-
-        index = 0;
-        for lines in self.quotes:
-            self.vDates[index]  = lines [0];
-            self.vOpen[index]   = lines [1];
-            self.vClose[index]  = lines [2];
-            self.vHigh[index]   = lines [3];
-            self.vLow[index]    = lines [4];
-            self.vVolume[index] = lines [5];
-            index =  index +1;
     
