@@ -82,7 +82,7 @@ class HistoricalDataObj:
                 self.vVolume[index] = lines [5];
                 index =  index +1;
         elif (dataFeedType == "google"):
-            self.vDate, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(self.stockTicker);
+            self.vDate, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(self.stockTicker, date1, date2);
             self.N = size(self.vDate);
 
     

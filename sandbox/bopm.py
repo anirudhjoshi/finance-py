@@ -26,7 +26,7 @@ from black_scholes_model import *
 
 data = HistoricalDataObj()
 # Use annual volatility. 
-data.initialize("gs",365); 
+data.initialize("gs",365,1,1, 'yahoo'); 
 
 
 # Period of each stage, for example, every stage will represent 2 days.
