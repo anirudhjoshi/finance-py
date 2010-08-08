@@ -13,17 +13,39 @@ import httplib
 import datetime
 from scipy import *
 from numpy import *
-def getData(symbol, daysBack=365, exchange=""):
-    endDate   = datetime.date.today();
-    startDate = endDate - datetime.timedelta(daysBack);
-    return getData(symbol, startDate, endDate, exchange);
-def getData(symbol, startDate, endDate,  exchange=""):
+#def getData(symbol, exchange="", daysBack=365):
+#    symbols    (mandatory)
+#    exchange   (optional)
+#    endDate    (1)
+#    startDate  (1)
+#    daysBack   (2)  
+def getData(symbol, **kargs):#startDate, endDate,  ):
+    
+    if kargs.has_key("exchange"):
+      exchange = kargs.get("exchange");
+      if not exchange =="":
+        exchange = exchange+":";
+      
+    else:
+      exchange = "";
+    
+    
+    if kargs.has_key("daysBack"):
+      daysBack  = kargs.get("daysBack");
+      startDate = datetime.date.today();
+      endDate   = endDate - datetime.timedelta(daysBack);
+    else:
+      startDate = kargs.get("startDate");
+      endDate   = kargs.get("endDate");
+    
+
+
+
+
     conn = httplib.HTTPConnection("www.google.com")
-    if(exchange != ""):
-        exchange.append(":")
-
-
-    subUrl = "/finance/historical?q=%s%s&startdate=%s&enddate=%s&output=csv" % (symbol,exchange, startDate.strftime("%b+%d+%y"),  endDate.strftime("%b+%d+%y"))
+ 
+  
+    subUrl = "/finance/historical?q=%s%s&startdate=%s&enddate=%s&output=csv" % (symbol,exchange, startDate.strftime("%b+%d+%Y"),  endDate.strftime("%b+%d+%y"))
 
     conn.request("GET", subUrl)
     r1 = conn.getresponse()
@@ -35,7 +57,9 @@ def getData(symbol, startDate, endDate,  exchange=""):
     data1 = data1.split('\n')
     N =size(data1)
 
-
+    if __debug__ :
+        print "www.google.com"+ subUrl
+    
     vDate  = zeros((N-2))
     vOpen  = zeros((N-2))
     vHigh  = zeros((N-2))
