@@ -21,11 +21,15 @@ sys.path.append("../src/")
 ##
 # Computes the volatility over the range 
 #   Compute as the std ( Log (current / prev) ) * sqrt( Length) * 100
+# spotPrices - spot price
+# scale factor 
 #
-#
-def volatility(spotPrices):
+def volatility(spotPrices, scaleFactor = -1):
     deltaLn = log(spotPrices[1:] /spotPrices[:-1] )    
     sigma   = std(deltaLn);
     N       = size(spotPrices)
-    sigmaN  = sigma * sqrt(N)
+    if(scaleFactor == -1):
+        sigmaN = sigma * sqrt(N)
+    else:
+        sigmaN = sigma * sqrt(scaleFactor)
     return sigmaN * 100;
