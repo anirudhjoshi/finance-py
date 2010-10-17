@@ -31,11 +31,12 @@ data.initialize("cat",365,1,1, 'yahoo');
 
 spotPrice = data.vClose[-1:];
 strikePrice =70;
-vola = volatility(data.vClose, 365);
+vola = volatility(data.vClose, 252);
+print vola
 daysToExp = 6;
 riskFreeRate = 0.1;
 
-bopmVal = bopm.bopm(spotPrice, strikePrice, vola, daysToExp, riskFreeRate)
+bopmVal = bopm.bopm(spotPrice, strikePrice, daysToExp, riskFreeRate,vola)
 print bopmVal;
 
 

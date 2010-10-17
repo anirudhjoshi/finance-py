@@ -69,7 +69,7 @@ def bsm(p,s,t,r,v):
     callPrice = p * N1 - s * exp(-r * t) * N2;
     putPrice  = callPrice - p + s * exp(-r*t)
 
-    print callPrice
-    print putPrice
+    #print callPrice
+    #print putPrice
 
     return callPrice

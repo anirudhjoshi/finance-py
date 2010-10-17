@@ -31,7 +31,7 @@ from scipy import *
 #  * Interest rate on a three-month U.S. Treasury bill is often used as 
 #	 the risk-free rate
 ##
-def bopm(spotPrice, strikePrice, volatility, daysToExp, riskFreeRate):
+def bopm(spotPrice, strikePrice, daysToExp, riskFreeRate, volatility):
     # convert to a percentage
     v = volatility/100;
     # Period of each stage, for example, every stage will represent 2 days.
@@ -62,13 +62,13 @@ def bopm(spotPrice, strikePrice, volatility, daysToExp, riskFreeRate):
         Y[index] = max(spotPrice * u**nu * d**nd - strikePrice, 0);
         nu = nu - 1;
         nd = nd + 1;
-        
-    print(Y);
+    #if __debug__:
+        #print(Y);
     # Traverse trellis to todays, to determine option price
     for numStates in arange(daysToExp - 1, 0, -1):
         Yn = zeros(daysToExp-1);
         for index in arange(0, numStates):
             Yn[index] = (p * Y[index] + q * Y[index+1]) / (1+r);
-            print(Yn);
+            #print(Yn);
         Y = Yn;
     return Y[0]
