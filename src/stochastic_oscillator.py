@@ -32,14 +32,8 @@ def stoc_osc(high, low, close, k_periods, k_slow_periods, d_periods, d_method):
         min_low     = min(low[index-k_periods+1:index+1]);
         numerator[index]   = close[index] - min_low;
         denominator[index] = max_high - min_low;
-        print index
-        print(min_low)
-        print(max_high)
-
         
     # %K Slowing periods, sum over last slowing periods (moving average work since we are doing a division)
-    print numerator
-    print denominator
     num = moving_average.sma(numerator, k_slow_periods);
     den = moving_average.sma(denominator, k_slow_periods);
     per_k = num / den * 100;

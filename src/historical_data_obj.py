@@ -15,6 +15,7 @@ import sys
 #
 # Google date feed needs more support for date range, date values
 #
+import datetime
 class HistoricalDataObj:
     """Historical Finance Data Object"""
     #Fields
@@ -27,7 +28,8 @@ class HistoricalDataObj:
     def __init__(self):
         ## Stock ticker (symbol)
         self.stockTicker= ""
-        ## Vectror of dates
+        ## Vectror of dates dah format
+        self.vDateInt   = array([])
         self.vDate      = array([])
         ## vector of open values
         self.vOpen      = array([])
@@ -44,7 +46,7 @@ class HistoricalDataObj:
         ## Quotes raw data created by data feed.
         self.quotes     = [];
     ## Same as above but the range is from today to days back
-    def initialize( self, stockTicker, daysBack, interval = 1, resolution = 1, dataFeedType = "yahoo"):  
+    def initialize( self, stockTicker, daysBack, interval = 1, resolution = 1, dataFeedType = "yahoo", dateFormat="raw"):  
         # start data
         date1 = date.today() - timedelta(days=daysBack)
         # end
@@ -65,7 +67,8 @@ class HistoricalDataObj:
         if(dataFeedType =="yahoo"):
             self.quotes = quotes_historical_yahoo(self.stockTicker, date1, date2)
             self.N          = self.quotes.__len__();
-            self.vDate      = zeros(self.N)
+            self.vDateInt   = zeros(self.N)
+            self.vDate      = empty(self.N, dtype=object);
             self.vOpen      = zeros(self.N)
             self.vClose     = zeros(self.N)
             self.vHigh      = zeros(self.N)
@@ -73,13 +76,14 @@ class HistoricalDataObj:
             self.vVolume    = zeros(self.N)
 
             index = 0;
-            for lines in self.quotes:
-                self.vDate[index]  = lines [0];
-                self.vOpen[index]   = lines [1];
-                self.vClose[index]  = lines [2];
-                self.vHigh[index]   = lines [3];
-                self.vLow[index]    = lines [4];
-                self.vVolume[index] = lines [5];
+            for line in self.quotes:
+                self.vDateInt[index]= line [0];
+                self.vDate[index]   = date.fromordinal( int( line [0] ) )
+                self.vOpen[index]   = line [1];
+                self.vClose[index]  = line [2];
+                self.vHigh[index]   = line [3];
+                self.vLow[index]    = line [4];
+                self.vVolume[index] = line [5];
                 index =  index +1;
         elif (dataFeedType == "google"):
             self.vDate, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(symbol=self.stockTicker, startDate=date1, endDate=date2);
