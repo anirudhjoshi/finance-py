@@ -14,7 +14,7 @@ def macd(input, slowLength, fastLength, signalLength):
     # 2nd EMA
     ema2out = moving_average.ema(input, slowLength);
     # Take the difference of the two
-    macdOut = ema1out - ema2out
+    macdOut = ema2out - ema1out
     ema = moving_average.ema(macdOut, signalLength);
     divergence =macdOut -ema;
     return [macdOut,ema,divergence]

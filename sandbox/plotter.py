@@ -5,10 +5,12 @@ from datetime import date, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
+from matplotlib.finance import candlestick, candlestick2
 
+sys.path.append("../src/");
 import moving_average
 import macd
-sys.path.append("../src/");
+
 import stochastic_oscillator
 from historical_data_obj import *
 
@@ -21,12 +23,11 @@ else:
   symbol = sys.argv[1]
   daysBack = int(sys.argv[2])
 
-
 data = HistoricalDataObj()
 data.initialize( symbol,daysBack, 1, 1, 'yahoo'); 
 
 
-macdOut, ema, divergence = macd.macd(data.vOpen, 26, 12, 9)
+macdOut, ema, divergence = macd.macd(data.vOpen, 5,10, 4)
 
 plt.rc('axes', grid=True)
 plt.rc('grid', color='0.75', linestyle='-', linewidth=0.5)
@@ -50,7 +51,7 @@ ax3  = fig.add_axes(rect3, axisbg=axescolor, sharex=ax1)
 
 
 ### plot stochastic oscillator
-[per_k, per_d] = stochastic_oscillator.stoc_osc(data.vHigh, data.vLow, data.vClose,5,3,3,"ema")
+[per_k, per_d] = stochastic_oscillator.stoc_osc(data.vHigh, data.vLow, data.vClose,15,5,5,"ema")
 
 fillcolor = 'darkgoldenrod'
 """
@@ -59,7 +60,8 @@ http://plantphys.info/demo/Colors.html
 """
 
 # Data
-ax1.plot(data.vDate,  data.vClose);
+#ax1.plot(data.vDate,  data.vClose);
+candlestick(ax1, data.quotes, width=0.6)
 ax1t.fill_between(data.vDate, data.vVolume, 0, color='orange')
 ax1t.set_ylim(0, 5 * max(data.vVolume))
 # MACD
@@ -92,6 +94,7 @@ for ax in ax1, ax2, ax3, ax1t:
             label.set_horizontalalignment('right')
 
     ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+
 class MyLocator(mticker.MaxNLocator):
     def __init__(self, *args, **kwargs):
         mticker.MaxNLocator.__init__(self, *args, **kwargs)

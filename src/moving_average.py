@@ -27,18 +27,3 @@ def ma(input, length):
 # Moving average
 def sma(input, length):
     return ma(input, length)
-
-
-# Test code for EMA
-def tb():
-    input   = [25,24.875,24.7881, 24.594, 24.500, 24.625, 25.219, 27.250]
-    gold = [25, 24.958, 24.899, 24.797, 24.698, 24.674, 24.856, 25.654]
-    output = zeros((8))
-    ema(input, output, 5)
-    
-    print output
-    print gold
-    if( sum(abs(output - gold)) > 1e-5):
-        print "Failed EMA"
-    else:
-        print "Passed Ema"
