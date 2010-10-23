@@ -11,7 +11,6 @@ def ema(input,length):
     
     sf1 = 2.0/ (length+1.0);
     sf2 = 1.0-sf1;
-    print sf1;
     indxO = 1;
     for indxI in arange(1,N):
         sum = input[indxI] *sf1 + sum * sf2;
