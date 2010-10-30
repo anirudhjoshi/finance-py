@@ -1,4 +1,4 @@
-
+# Creator Ray Salem
 from numpy import *
 from scipy import *
 import moving_average

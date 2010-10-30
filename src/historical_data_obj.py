@@ -13,6 +13,10 @@ import sys
 ## Historical Data Object
 #   STored in vectors where every element represents a single date
 #
+#
+# Note;
+#  index 0 is the earliest date, and Index is the lates date (ie. 0-->10/1/10 1-->10/2/10)
+# Todo:
 # Google date feed needs more support for date range, date values
 #
 import datetime
@@ -86,7 +90,11 @@ class HistoricalDataObj:
                 self.vVolume[index] = line [5];
                 index =  index +1;
         elif (dataFeedType == "google"):
-            self.vDate, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(symbol=self.stockTicker, startDate=date1, endDate=date2);
-            self.N = size(self.vDate);
-
+            self.vDateInt, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(symbol=self.stockTicker, startDate=date1, endDate=date2);
+            self.N = size(self.vDateInt);
+            self.vDate      = empty(self.N, dtype=object);
+            index = 0;
+            for d in self.vDateInt:
+                self.vDate[index] = date.fromordinal( int( d) );
+                index = index + 1;
     

@@ -36,8 +36,12 @@ def stoc_osc(high, low, close, k_periods, k_slow_periods, d_periods, d_method):
     # %K Slowing periods, sum over last slowing periods (moving average work since we are doing a division)
     num = moving_average.sma(numerator, k_slow_periods);
     den = moving_average.sma(denominator, k_slow_periods);
-    per_k = num / den * 100;
-                          
+    for index in arange(0, N):
+        if(den[index] == 0):
+            per_k[index] = 100;
+        else:
+            per_k[index] = num[index] / den[index] * 100;
+
     if(d_method == "ema"):
         per_d = moving_average.ema(per_k, d_periods);
     elif(d_method == "sma"):

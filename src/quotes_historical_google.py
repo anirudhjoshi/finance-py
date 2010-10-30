@@ -23,8 +23,7 @@ def getData(symbol, **kargs):#startDate, endDate,  ):
   if kargs.has_key("exchange"):
     exchange = kargs.get("exchange");
     if not exchange =="":
-      exchange = exchange+":";
-      
+      exchange = exchange+":";      
   else:
     exchange = "";
     
@@ -45,7 +44,7 @@ def getData(symbol, **kargs):#startDate, endDate,  ):
 
   conn.request("GET", subUrl)
   r1 = conn.getresponse()
-  if __debug__ :
+  if 0:# __debug__ :
     print r1.status, r1.reason
     print startDate
     print endDate
@@ -56,29 +55,25 @@ def getData(symbol, **kargs):#startDate, endDate,  ):
   data1 = data1.split('\n')
   N =size(data1)
 
-
-  if __debug__ :
+  if 0:#__debug__ :
     print N
     
+  vDate  = zeros((N-2))
+  vOpen  = zeros((N-2))
+  vHigh  = zeros((N-2))
+  vLow   = zeros((N-2))
+  vClose = zeros((N-2))
+  vVolume= zeros((N-2))
+  # ignore first row, since it is a header and last row since it only contains a ']'
+  for index in range(1,N-1):
+    row = data1[index].split(',');
 
-
-
-    vDate  = zeros((N-2))
-    vOpen  = zeros((N-2))
-    vHigh  = zeros((N-2))
-    vLow   = zeros((N-2))
-    vClose = zeros((N-2))
-    vVolume= zeros((N-2))
-    # ignore first row, since it is a header and last row since it only contains a ']'
-    for index in range(1,N-1):
-        row = data1[index].split(',');
-
-        # convert to date time, and the convert to ordinal time. 
-        g = datetime.datetime.strptime(row[0], "%d-%b-%y")
-        vDate[index - 1] = datetime.datetime.toordinal(g);
-        vOpen[index - 1] = row[1]
-        vHigh[index - 1] = row[2]
-        vLow[index - 1] = row[3]
-        vClose[index - 1] = row[4]
-        vVolume[index - 1] = row[5]
-    return vDate, vOpen, vHigh, vLow, vClose, vVolume
+    # convert to date time, and the convert to ordinal time. 
+    g = datetime.datetime.strptime(row[0], "%d-%b-%y")
+    vDate[N-index - 2] = datetime.datetime.toordinal(g);
+    vOpen[N-index - 2] = row[1]
+    vHigh[N-index - 2] = row[2]
+    vLow[N-index - 2] = row[3]
+    vClose[N-index - 2] = row[4]
+    vVolume[N-index - 2] = row[5]
+  return vDate, vOpen, vHigh, vLow, vClose, vVolume

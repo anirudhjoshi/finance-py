@@ -20,7 +20,7 @@ from historical_data_obj import *
 daysBack = 150;
 symbol = 'gs'
 obj = HistoricalDataObj()
-obj.initialize( symbol,daysBack, 1, 1, 'yahoo'); 
+obj.initialize( symbol,daysBack, 1, 1, 'google'); 
 
 
 
