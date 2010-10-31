@@ -14,6 +14,16 @@ import macd
 import stochastic_oscillator
 from historical_data_obj import *
 
+class PlotterFormateter(Formatter):
+  def __init__(self, dates, fmt="%Y-%m-%d"):
+    self.dates = dates;
+    self.fmt = fmt;
+  def __call__(self,x,pos = 0):
+    ind = int(round(x))
+    if ind > len(self.dates) or ind < 0:
+      return ''
+
+    return self.dates[ind].strftime(self.fmt)
 
 if (sys.argv.__len__() == 1):
   print "Must provide symbol and days going back.  for example: yhoo 1000"
@@ -25,7 +35,7 @@ else:
 
 data = HistoricalDataObj()
 data.initialize( symbol,daysBack, 1, 1, 'yahoo'); 
-
+N = size(data);
 
 macdOut, ema, divergence = macd.macd(data.vOpen, 5,10, 4)
 
@@ -60,7 +70,7 @@ http://plantphys.info/demo/Colors.html
 """
 
 # Data
-#ax1.plot(data.vDate,  data.vClose);
+#ax1.plot(arange(N),  data.vClose)
 candlestick(ax1, data.quotes, width=0.6)
 ax1t.fill_between(data.vDate, data.vVolume, 0, color='orange')
 ax1t.set_ylim(0, 5 * max(data.vVolume))
@@ -107,7 +117,7 @@ class MyLocator(mticker.MaxNLocator):
 #ax2.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
 #ax3.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
 
-ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
-ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
+#ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
+#ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
 
 plt.show()
