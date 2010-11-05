@@ -4,6 +4,9 @@ from scipy import *
 # Eponential Moving average
 # in - input, out-output, length
 def ema(input,length):
+    if __debug__ and input.__len__() == 0:
+      print "moving_average:ema -> input length is equal to 0"
+        
     N = input.__len__();
     output = zeros(N);
     output[0] = input[0];
