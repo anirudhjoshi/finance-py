@@ -1,3 +1,9 @@
+################################################################################
+# Copyright (C)  2010 Ray M. Salem
+# http://code.google.com/p/finance-py/
+# Distributed under the GPL license Version 3.0 ( See accompanying file 
+# License_ or copy at http://code.google.com/p/finance-py/LICENSE)
+################################################################################
 
 from numpy import *
 from scipy import *
