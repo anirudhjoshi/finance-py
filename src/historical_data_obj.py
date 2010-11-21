@@ -51,6 +51,8 @@ class HistoricalDataObj:
         self.vLow       = array([])
         ## Vector of volume
         self.vVolume    = array([])
+        ## Vector of log(price change)
+        self.vLdata     = array([])
         ## Number of entries (length of vector)
         self.N          = 0;
         ## Quotes raw data created by data feed.
@@ -61,7 +63,17 @@ class HistoricalDataObj:
         date1 = date.today() - timedelta(days=daysBack)
         # end
         date2 = date.today()
-        self.initialize1(stockTicker, date1, date2, interval, resolution, dataFeedType)                    
+        self.initialize1(stockTicker, date1, date2, interval, resolution, dataFeedType)
+    ##
+    # Init attributes not set during initialiation 
+    # type:
+    #   "logData" - will set vLdata, as the log of the price change
+    #
+    def init(self,initType):
+      if(initType =="logData"):
+        self.vLdata   = zeros(self.N)
+        vLdata        = log(self.vClose[1:] /self.vClose[:-1] )
+                            
     ##############################################################################
     ## Initialization routine
     # @param symbol symbol of historical data to be retrieved
