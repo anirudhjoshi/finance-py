@@ -23,12 +23,25 @@ import macd
 import stochastic_oscillator
 from historical_data_obj import *
 
+#
+# symbol ticker to be plotted
+# daysBack days back for data request
+# daysToPlot days to actually plot
+#
 if (sys.argv.__len__() == 1):
   print "Must provide symbol and days going back.  for example: yhoo 1000"
   exit()
-else:
+elif(sys.argv.__len__() == 3):
   symbol = sys.argv[1]
   daysBack = int(sys.argv[2])
+  daysToPlot =-1  
+elif(sys.argv.__len__() == 4):
+  symbol = sys.argv[1]
+  daysBack   = int(sys.argv[2])
+  daysToPlot = int(sys.argv[3])  
+else:
+  print "Must provide symbol and days going back.  for example: yhoo 1000 900 "
+  exit()
 
 
 
@@ -36,7 +49,14 @@ else:
 data = HistoricalDataObj()
 data.initialize( symbol,daysBack, 1, 1, 'yahoo'); 
 N = size(data.vClose);
-
+if(daysToPlot == -1):
+  daysToPlot = -1*N
+elif(N <= daysToPlot):
+  print "Error Days to plot must be less the days back"
+  exit()
+else:  
+  daysToPlot = -1*daysToPlot
+  
 
 class MyFormatter(Formatter):
     def __init__(self, dates, fmt='%Y-%m-%d'):
@@ -50,7 +70,7 @@ class MyFormatter(Formatter):
 
         return self.dates[ind].strftime(self.fmt)
 
-formatter=  MyFormatter(data.vDate)        
+formatter=  MyFormatter(data.vDate[daysToPlot:])        
 
 
 [macdOut, ema, divergence] = macd.macd(data.vOpen, 5,10, 4)
@@ -58,40 +78,24 @@ formatter=  MyFormatter(data.vDate)
 
 plt.figure(1)
 ax1 = plt.subplot('311')
-#ax1t =ax1.twinx()
-candlestick2(ax1, data.vOpen,data.vClose,data.vHigh,data.vLow, width=0.6)
+
+candlestick2(ax1, data.vOpen[daysToPlot:],data.vClose[daysToPlot:],data.vHigh[daysToPlot:],data.vLow[daysToPlot:], width=0.6)
 # MACD
 ax2 = plt.subplot('312')
-ax2.plot(macdOut)
-ax2.plot( ema)
-ax2.stem(arange(N), divergence)
+ax2.plot(macdOut[daysToPlot:])
+ax2.plot( ema[daysToPlot:])
+ax2.stem(arange(-1*daysToPlot), divergence[daysToPlot:])
 # Stochastic Oscillator.
 ax3 = plt.subplot('313')
-ax3.plot(per_k, color="red")
-ax3.plot(per_d, color='darkviolet')
-#ax3.axhline(70, color=fillcolor)   
-#ax3.axhline(30, color=fillcolor)
+ax3.plot(per_k[daysToPlot:], color="red")
+ax3.plot(per_d[daysToPlot:], color='darkviolet')
+ax3.axhline(70, color="grey")   
+ax3.axhline(30, color="grey")
 ax3.set_ylim(0, 100)
 ax3.set_yticks([30,70])
 ax3.xaxis.set_major_formatter(formatter)
 
-#ax1.autoscale_view()
-#ax1t.fill_between(data.vDate, data.vVolume, 0, color='orange')
-#ax1t.set_ylim(0, 5 * max(data.vVolume))
-
-
-
-
-
-# fill over sold and bought
-#ax3.fill_between(data.vDate, per_k, 70, where=(per_k>=70), facecolor=fillcolor, edgecolor=fillcolor)
-#ax3.fill_between(data.vDate, per_k, 30, where=(per_k<=30), facecolor=fillcolor, edgecolor=fillcolor)
-
-#formatter = PlotterFormateter(data.vDate)
-#ax1.xaxis.PlotterFormateter(formatter)
 ax1.set_title(symbol)
-#plt.autofmt_xdate()
-
 
 
 for ax in ax1, ax2, ax3:#, ax1t:
@@ -104,19 +108,5 @@ for ax in ax1, ax2, ax3:#, ax1t:
             #label.set_horizontalalignment('center')
 
     ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
-
-#class MyLocator(mticker.MaxNLocator):
-#    def __init__(self, *args, **kwargs):
-#        mticker.MaxNLocator.__init__(self, *args, **kwargs)
-#
-#    def __call__(self, *args, **kwargs):
-#        return mticker.MaxNLocator.__call__(self, *args, **kwargs)
-
-# at most 5 ticks, pruning the upper and lower so they don't overlap
-# with other ticks
-#ax2.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
-#ax3.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
-#ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
-#ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
 
 plt.show()

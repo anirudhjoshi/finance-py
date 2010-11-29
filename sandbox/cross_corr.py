@@ -32,10 +32,14 @@ corrType = 0
 
 
 
-
+if (sys.argv.__len__() == 1):
+  print "Must provide symbol and days going back.  for example: big.list"
+  exit()
+elif(sys.argv.__len__() == 2):
+  inFileName= sys.argv[1]  
 ## Get symbosl
-fileName="big.list"
-fid = open(fileName, 'r')
+
+fid = open(inFileName, 'r')
 reader= csv.reader(fid)
 tickers = list()
 for row in reader:
