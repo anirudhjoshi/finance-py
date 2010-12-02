@@ -1,4 +1,3 @@
-
 ################################################################################
 # Copyright (C)  2010 Ray M. Salem
 # http://code.google.com/p/finance-py/
@@ -6,6 +5,12 @@
 # License_ or copy at http://code.google.com/p/finance-py/LICENSE)
 ################################################################################
 
+
+################################################################################
+# Will read option data from yahoo, and will output files contain the appropiate 
+# data.
+# Future version will improve interface and error handling
+################################################################################
 from numpy import *
 import urllib
 import re
