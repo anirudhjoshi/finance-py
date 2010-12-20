@@ -80,8 +80,8 @@ class HistoricalDataObj:
     # @param data1 start date
     # @param date2 end date
     # @param interval period of samples, must be an integer and greater then 1, for example
-    #   2, would return samples for every other day.
-    # @param resolition, is allways 1
+    #   2, would return samples for every other day. (not supported currently)
+    # @param resolution, sampling frequency of the data, for example daily or weekly
     # @param dataFeedType - data feed up, currently onlys supporting yahoo.
     def initialize1( self,stockTicker, date1, date2, interval, resolution, dataFeedType):
 
@@ -108,7 +108,7 @@ class HistoricalDataObj:
                 self.vVolume[index] = line [5];
                 index =  index +1;
         elif (dataFeedType == "google"):
-            self.vDateInt, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(symbol=self.stockTicker, startDate=date1, endDate=date2);
+            self.vDateInt, self.vOpen, self.vHigh, self.vLow, self.vClose, self.vVolume = quotes_historical_google.getData(symbol=self.stockTicker, startDate=date1, endDate=date2, resolution=resolution);
             self.N = size(self.vDateInt);
             self.vDate      = empty(self.N, dtype=object);
             index = 0;

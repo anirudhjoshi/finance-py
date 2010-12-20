@@ -14,6 +14,7 @@
 
 ## Example Google url to get BP from Jun 5, 2008 to Jul 4, 2010
 #http://www.google.com/finance/historical?q=bp&startdate=Jun+5+2008&enddate=Jul+4+2010&output=csv
+#http://www.google.com/finance/historical?q=BP&histperiod=weekly&startdate=Jun+5+2008&enddate=Jul+4+2010&output=csv
 
 # External libs
 import httplib
@@ -42,19 +43,34 @@ def getData(symbol, **kargs):#startDate, endDate,  ):
   else:
     startDate = kargs.get("startDate");
     endDate   = kargs.get("endDate");
-         
+  
+  if kargs.has_key("resolution"):
+    resolution =  kargs.get("resolution")
+  else:
+    resolution = 1;    
+  if(resolution == 1):
+    resolutionStr = "daily"
+  elif(resolution == 7):
+    resolutionStr = "weekly"
+  else:
+    print("Quotes Historical google - Error : resolution must be either 1 or 7 (days or weeks)")
+    return();
+  
+  
+  
   conn = httplib.HTTPConnection("www.google.com")
  
  
-  subUrl = "/finance/historical?q=%s%s&startdate=%s&enddate=%s&output=csv" % (symbol,exchange, startDate.strftime("%b+%d+%Y"),  endDate.strftime("%b+%d+%y"))
+  subUrl = "/finance/historical?q=%s%s&histperiod=%s&startdate=%s&enddate=%s&output=csv" % (exchange, symbol, resolutionStr, startDate.strftime("%b+%d+%Y"),  endDate.strftime("%b+%d+%y"))
 
 
   conn.request("GET", subUrl)
-  r1 = conn.getresponse()
-  if 0:# __debug__ :
+  r1 = conn.getresponse()  
+  if 0:#__debug__ :
     print r1.status, r1.reason
     print startDate
     print endDate
+    print resolution
     print "www.google.com"+ subUrl
     
   data1 = r1.read()

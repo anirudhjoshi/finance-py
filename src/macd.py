@@ -9,19 +9,27 @@
 from numpy import *
 from scipy import *
 import moving_average
-def macd(input, slowLength, fastLength, signalLength):
+#
+# fastLength - represent fast changing ema (small vale)
+# slowLength - represent slow changing ema (large value)
+
+# Return
+# macdOut    - different between fast and slow ema
+# signal     - ema of macdOut
+# divergence - macdOut - signal
+def macd(input, fastLength, slowLength, signalLength):
     N = input.__len__();
 
-    ema1out = zeros((N))
-    ema2out = zeros((N))
-    ema     = zeros((N))
+    emaFast = zeros((N))
+    emaSlow = zeros((N))
+    signal  = zeros((N))
 
-    # 1st EMA
-    ema1out = moving_average.ema(input, fastLength);
-    # 2nd EMA
-    ema2out = moving_average.ema(input, slowLength);
+    # Slow EMA
+    emaSlow = moving_average.ema(input, slowLength);
+    # Fast EMA
+    emaFast = moving_average.ema(input, fastLength);
     # Take the difference of the two
-    macdOut = ema2out - ema1out
-    ema = moving_average.ema(macdOut, signalLength);
-    divergence =macdOut -ema;
-    return [macdOut,ema,divergence]
+    macdOut = emaFast - emaSlow
+    signal = moving_average.ema(macdOut, signalLength);
+    divergence = macdOut - signal;
+    return [macdOut,signal,divergence]
