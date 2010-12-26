@@ -28,6 +28,7 @@ from historical_data_obj import *
 # daysBack days back for data request
 # daysToPlot days to actually plot
 #
+resolution = 1;
 if (sys.argv.__len__() == 1):
   print "Must provide symbol and days going back.  for example: yhoo 1000"
   exit()
@@ -55,7 +56,7 @@ else:
 
 
 data = HistoricalDataObj()
-data.initialize( symbol,daysBack, 1, resolution, 'google');
+data.initialize( symbol,daysBack, 1, resolution, 'yahoo');
 N = size(data.vClose);
 if(daysToPlot == -1):
   daysToPlot = -1*N
