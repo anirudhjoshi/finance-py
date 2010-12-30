@@ -24,13 +24,28 @@ import getopt
 import urllib
 from scipy import *
 from numpy import *
-                   
+
+
+MAX_SYMBOL_QUERY_SIZE = 200;                   
 def get_fundamentals(fields, stockListIn):                 
-  stockListP=""
-  for ticker in stockListIn:
-    stockListP = stockListP + ticker+"+"
-    
-  strUrl = "http://download.finance.yahoo.com/d/quotes.csv?s=%s&f=%s" % (stockListP[:-1],fields)
+  results = list();
+  N = stockListIn.__len__()
+  M = N / MAX_SYMBOL_QUERY_SIZE;
+  if __debug__:
+    print N
+    print M    
+  for m in range(0,M+1):
+    L = min( (m+1)*MAX_SYMBOL_QUERY_SIZE, N)
+    stockListP=""
+    for index in  range(m*200,L):
+      stockListP = stockListP + stockListIn[index]+"+"
+    temp = get_fundamentals_prv(fields,stockListP)
+    results = results + temp;
+    if __debug__ and results.__len__() != stockListIn.__len__():
+      print "In(%d)/Out(%d) Sizes do no match." % (stockListIn.__len__(),results.__len__())
+  return results
+def get_fundamentals_prv(fields, stockListIn):    
+  strUrl = "http://download.finance.yahoo.com/d/quotes.csv?s=%s&f=%s" % (stockListIn[:-1],fields)
   
   if __debug__:
     print strUrl
@@ -46,10 +61,8 @@ def get_fundamentals(fields, stockListIn):
   
  
   for index in arange(0,N):
-    rr = ""
-    #print data1[index]
-    data = data1[index].replace("\r","").split(',')
-    print data
+    rr = ""        
+    data = data1[index].replace("\r","").split(',')  
     M = size(data); # there is any empty element
     tt = list()
     longEntry=False
@@ -60,12 +73,16 @@ def get_fundamentals(fields, stockListIn):
         longEntry = True;
       elif(longEntry == True):
         rr = rr + data[index].replace('"','')
-        if(data[index][0] != '\"' and data[index][-1] == '"'):
+        if(data[index][0] == '"' and data[index].__len__() == 1):   # handle case where last segment is only '"'
+          longEntry = False
+          tt.append(rr)                
+        elif(data[index][0] != '\"' and data[index][-1] == '"'):
           longEntry = False
           tt.append(rr)        
       else:
         tt.append(data[index])
-         
+    #print tt  
+    #print longEntry
     results.append(tt)
   
   return results;
