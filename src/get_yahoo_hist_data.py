@@ -22,6 +22,8 @@ from datetime import date,timedelta
 # Get historical data
 ################################################################################
 def get(symbol, daysBack, fileWrite):
+    if __debug__ and resolution != 1 :
+      print "get_yahoo_hist_data:get - Does not support resolution other then 1"
     date1 = date.today() - timedelta(days=daysBack)
     # end
     date2 = date.today()
