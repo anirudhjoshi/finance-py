@@ -31,9 +31,9 @@ def get_fundamentals(fields, stockListIn):
   results = list();
   N = stockListIn.__len__()
   M = N / MAX_SYMBOL_QUERY_SIZE;
-  if __debug__:
-    print N
-    print M    
+#  if __debug__:
+#    print N
+#    print M    
   for m in range(0,M+1):
     L = min( (m+1)*MAX_SYMBOL_QUERY_SIZE, N)
     stockListP=""
