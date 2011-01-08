@@ -47,8 +47,8 @@ def get_fundamentals(fields, stockListIn):
 def get_fundamentals_prv(fields, stockListIn):    
   strUrl = "http://download.finance.yahoo.com/d/quotes.csv?s=%s&f=%s" % (stockListIn[:-1],fields)
   
-  if __debug__:
-    print strUrl
+#  if __debug__:
+#    print strUrl
   uf = urllib.urlopen(strUrl)
   data1 = uf.read()
   uf.close()
@@ -67,7 +67,7 @@ def get_fundamentals_prv(fields, stockListIn):
     tt = list()
     longEntry=False
     for index in range(0,M):
-      print data[index]
+#      print data[index]
       if(data[index][0] == '\"' and data[index][-1] != '"'):
         rr = rr + data[index].replace('"','')
         longEntry = True;
