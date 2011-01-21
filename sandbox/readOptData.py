@@ -25,7 +25,7 @@ readSymbolFile      = 0;
 readSymbolFileName  = "sp500"
 
 securityA   = ["qcom"]
-date        = "2010-12";
+date        = "2011-02";
 verbose_    = 2
 ################################################################################
 # security - Security Name, i.e. QQQQ
@@ -33,7 +33,7 @@ verbose_    = 2
 # of the month for example 2007-11
 def readYahooStockOptions(security, date, verbose = 1):
     if(readFile):
-        fid = open("C:\\work\\bin\\option_data_"+security+".html",'r');
+        fid = open("C:\\work\\\\option_data_"+security+".html",'r');
         fileString =fid.readlines();
         s = fileString.__str__();
     else:
@@ -175,14 +175,14 @@ for security in securityA:
         [callData,putData, strikePrice,optionNames,numPoints] = parseOptionData(fileString)
 
         # Write Market Data, to security.csv
-        fidData = open("bin\\"+security+".txt",'w');
+        fidData = open("C:\\work\\bin\\"+security+".txt",'w');
         fidData.writelines(buyPrice.__str__() + "\n" + priceChange.__str__() + "\n" + priceChangePer.__str__() +"\n"+numPoints.__str__());
         fidData.close()
 
-        fidCallData     = open("bin\\"+security+".call.txt",'w');
-        fidPutData      = open("bin\\"+security+".put.txt",'w');
-        fidStrikePrice  = open("bin\\"+security+".strike_price.txt",'w');
-        fidAll          = open("bin\\"+security+".txt",'w');
+        fidCallData     = open("C:\\work\\bin\\"+security+".call.txt",'w');
+        fidPutData      = open("C:\\work\\bin\\"+security+".put.txt",'w');
+        fidStrikePrice  = open("C:\\work\\bin\\"+security+".strike_price.txt",'w');
+        fidAll          = open("C:\\work\\bin\\"+security+".txt",'w');
         # write call data,to security.call.csv
 
         secNameIndex = 0;

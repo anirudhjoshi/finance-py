@@ -82,20 +82,26 @@ class MyFormatter(Formatter):
 formatter=  MyFormatter(data.vDate[daysToPlot:])
 
 
-[macdOut, ema, divergence] = macd.macd(data.vOpen, 5,10, 4)
+
 [per_k, per_d] = stochastic_oscillator.stoc_osc(data.vHigh, data.vLow, data.vClose,15,5,5,"ema")
 
 plt.figure(1)
-ax1 = plt.subplot('311')
+ax1 = plt.subplot('411')
 
 candlestick2(ax1, data.vOpen[daysToPlot:],data.vClose[daysToPlot:],data.vHigh[daysToPlot:],data.vLow[daysToPlot:], width=0.6)
+[macdOut, ema, divergence] = macd.macd(data.vClose, 12,26, 9)
+ax2 = plt.subplot('412')
+ax2.plot(macdOut[daysToPlot:])
+ax2.plot( ema[daysToPlot:])
+ax2.stem(arange(-1*daysToPlot), divergence[daysToPlot:])
 # MACD
-ax2 = plt.subplot('312')
+[macdOut, ema, divergence] = macd.macd(data.vClose, 5,10, 4)
+ax2 = plt.subplot('413')
 ax2.plot(macdOut[daysToPlot:])
 ax2.plot( ema[daysToPlot:])
 ax2.stem(arange(-1*daysToPlot), divergence[daysToPlot:])
 # Stochastic Oscillator.
-ax3 = plt.subplot('313')
+ax3 = plt.subplot('414')
 ax3.plot(per_k[daysToPlot:], color="red")
 ax3.plot(per_d[daysToPlot:], color='darkviolet')
 ax3.axhline(70, color="grey")

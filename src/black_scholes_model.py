@@ -20,6 +20,13 @@
 #			    the safest investments carry a very small amount of risk. Thus, the
 #				interest rate on a three-month U.S. Treasury bill is often used as 
 #				the risk-free rate. 
+#
+# TODO:
+#      (1) Add Greeks
+#      (2) Compute implied volatility (IV)
+# Reference
+#     - US Treasury yields 
+#         http://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
 ################################################################################
 
 # Will use treat division operands as rational numbers rather then integer. 
@@ -48,19 +55,18 @@ def erf(x):
     t = 1.0/(1.0 + p*x)
     y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*math.exp(-x*x)
     return sign*y # erf(-x) = -erf(x)
-
 ## 
 # Black Scholes Option Pricing Model (calculator)
 # Stock price
-# p = 146.17;
+#   p = 146.17;
 # Strike price
-# s = 140;
+#   s = 140;
 # Time remaining to expiration (unit is days)
-# t = 35;
+#   t = 35;
 # Current Risk free interest rate. (unit is percentage) 
-# r = 1;
-#Volatility measured by annual standard deviation (unit is percentage)
-# v = 37.92;#
+#   r = 1;
+# Volatility measured by annual standard deviation (unit is percentage)
+#   v = 37.92;#
 def bsm(p,s,t,r,v):
     # normalize
     r = r/100.0;

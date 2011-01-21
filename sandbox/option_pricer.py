@@ -31,21 +31,31 @@ from historical_data_obj import *
 from volatility import *
 from black_scholes_model import *
 import bopm
+
+### 
+# Parameters
+symbol = 'qcom'
+strikePrice =50;
+daysToExp = 6;
+riskFreeRate = 0.15;
+###
+
+
+
 data = HistoricalDataObj()
 # Use annual volatility. 
-data.initialize("cat",365,1,1, 'yahoo'); 
+data.initialize(symbol,365,1,1, 'yahoo'); 
 
 
 spotPrice = data.vClose[-1:];
-strikePrice =70;
+
 vola = volatility(data.vClose, 252);
-print vola
-daysToExp = 6;
-riskFreeRate = 0.1;
 
 bopmVal = bopm.bopm(spotPrice, strikePrice, daysToExp, riskFreeRate,vola)
-print bopmVal;
-
 
 bsmVal  = bsm(spotPrice, strikePrice, daysToExp, riskFreeRate, vola)
+
+
+print vola
+print bopmVal;
 print bsmVal
