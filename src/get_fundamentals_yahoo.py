@@ -49,8 +49,11 @@ def get_fundamentals_prv(fields, stockListIn):
   
 #  if __debug__:
 #    print strUrl
-  uf = urllib.urlopen(strUrl)
-  data1 = uf.read()
+  try:
+	uf = urllib.urlopen(strUrl)  
+	data1 = uf.read()
+  except:
+	print("Get Fundamentals: could query : " + strUlr + "\n\t fields :" + fields);
   uf.close()
     
   
