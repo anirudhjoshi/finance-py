@@ -53,7 +53,7 @@ def get_fundamentals_prv(fields, stockListIn):
 	uf = urllib.urlopen(strUrl)  
 	data1 = uf.read()
   except:
-	print("Get Fundamentals: could query : " + strUlr + "\n\t fields :" + fields);
+	print("Get Fundamentals Failed: could not query : " + strUlr + "\n\t fields :" + fields);
   uf.close()
     
   
