@@ -10,7 +10,7 @@ from numpy import *
 from scipy import *
 import moving_average
 #
-# fastLength - represent fast changing ema (small vale)
+# fastLength - represent fast changing ema (small value)
 # slowLength - represent slow changing ema (large value)
 
 # Return
