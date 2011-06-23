@@ -30,10 +30,7 @@ MAX_SYMBOL_QUERY_SIZE = 200;
 def get_fundamentals(fields, stockListIn):                 
   results = list();
   N = stockListIn.__len__()
-  M = N / MAX_SYMBOL_QUERY_SIZE;
-#  if __debug__:
-#    print N
-#    print M    
+  M = N / MAX_SYMBOL_QUERY_SIZE; 
   for m in range(0,M+1):
     L = min( (m+1)*MAX_SYMBOL_QUERY_SIZE, N)
     stockListP=""
@@ -41,8 +38,8 @@ def get_fundamentals(fields, stockListIn):
       stockListP = stockListP + stockListIn[index]+"+"
     temp = get_fundamentals_prv(fields,stockListP)
     results = results + temp;
-    if __debug__ and results.__len__() != stockListIn.__len__():
-      print "In(%d)/Out(%d) Sizes do no match." % (stockListIn.__len__(),results.__len__())
+  if __debug__ and results.__len__() != stockListIn.__len__():
+    print "In(%d)/Out(%d) Sizes do no match." % (stockListIn.__len__(),results.__len__())
   return results
 def get_fundamentals_prv(fields, stockListIn):    
   strUrl = "http://download.finance.yahoo.com/d/quotes.csv?s=%s&f=%s" % (stockListIn[:-1],fields)
@@ -53,7 +50,7 @@ def get_fundamentals_prv(fields, stockListIn):
 	uf = urllib.urlopen(strUrl)  
 	data1 = uf.read()
   except:
-	print("Get Fundamentals Failed: could not query : " + strUlr + "\n\t fields :" + fields);
+	print("Get Fundamentals Failed: could not query : " + strUrl + "\n\t fields :" + fields);
   uf.close()
     
   
