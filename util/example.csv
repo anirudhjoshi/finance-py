@@ -1,0 +1,3 @@
+,ma1length,ma2length,ma3length,macdFastLength,macdSlowLength,macdSignalLength
+test1, 15,50,200,12,26,9
+test2, 10,25,100,9,5,11
