@@ -44,10 +44,10 @@ with open(workPath + "//" + fileName, 'r') as f:
 			
 			# Create the minidom document
 			doc = Document()
-			#cc1 = doc.createComment("license:RMS Investment 2011")
-			#cc2 = doc.createComment("strictly confidential. Propietary Information")
-			#doc.appendChild(cc1)
-			#doc.appendChild(cc2)
+			cc1 = doc.createComment("license:")
+			cc2 = doc.createComment("strictly confidential. Propietary Information")
+			doc.appendChild(cc1)
+			doc.appendChild(cc2)
 			# Create the <main> base element
 			top = doc.createElement("dvg_sns")
 			doc.appendChild(top)
