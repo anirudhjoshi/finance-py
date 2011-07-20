@@ -3,6 +3,7 @@ from scipy import *
 import csv
 import sys
 import os
+import shutil
 from xml.dom.minidom import Document
 
 ##
@@ -16,6 +17,7 @@ from xml.dom.minidom import Document
 
 # True --> each test case will get a unique directory, but output xml will allways be called parameters.xml
 individualTestDir = True;
+executableName = "python c:\\owc\\dvg_study\\src\\backtest\\tester.py"
 workPath = ""
 if (sys.argv.__len__() == 2):
 	fileName = sys.argv[1];	
@@ -29,6 +31,9 @@ else:
 with open(workPath + "//" + fileName, 'r') as f:
 	reader = csv.reader(f)
 	rowIndex =  0;
+	id = 0;
+	
+	fExe = open(workPath + "//cmd", 'w');
 	for row in reader:
 		if(rowIndex  == 0):
 			header = row#.split(',')
@@ -39,17 +44,24 @@ with open(workPath + "//" + fileName, 'r') as f:
 			
 			# Create the minidom document
 			doc = Document()
-			cc1 = doc.createComment("license:RMS Investment 2011")
-			cc2 = doc.createComment("strictly confidential. Propietary Information")
-			doc.appendChild(cc1)
-			doc.appendChild(cc2)
+			#cc1 = doc.createComment("license:RMS Investment 2011")
+			#cc2 = doc.createComment("strictly confidential. Propietary Information")
+			#doc.appendChild(cc1)
+			#doc.appendChild(cc2)
 			# Create the <main> base element
 			top = doc.createElement("dvg_sns")
+			doc.appendChild(top)
+			top.setAttribute("id", str(id) )
+			top.setIdAttribute("id")
+			id = id + 1;
 			top.setAttribute("testName", cols[0])
 			if(individualTestDir  == True):
-				workPath = workPath + cols[0] 
-				os.mkdir(workPath)
-			doc.appendChild(top)
+				workPathTemp = workPath + cols[0] 
+				shutil.rmtree(workPathTemp, True)		
+				os.mkdir(workPathTemp)
+			else:
+				workPathTemp = workPath
+			
 			for index in range(1,N):
 				print "\t%s = %s" % ( header[index], cols[index])
 				parameter = doc.createElement("parameter")
@@ -57,13 +69,13 @@ with open(workPath + "//" + fileName, 'r') as f:
 				parameter.setAttribute("value", cols[index])
 				top.appendChild(parameter)
 			if(individualTestDir ==True):
-				f = open(workPath + "//parameters.xml",'w');
+				f = open(workPathTemp + "//parameters.xml",'w');
+				fExe.write(executableName + " " + workPathTemp +" parameters.xml\n");
 			else:
-				f = open(workPath + "//" + cols[0] + ".xml",'w');
+				f = open(workPathTemp + "//" + cols[0] + ".xml",'w');
+				fExe.write( executableName + " " + workPathTemp +" " +  cols[0] + ".xml\n");
 			doc.writexml(f);
 			f.close()
-		
-		
 		
 		
 			
@@ -71,5 +83,5 @@ with open(workPath + "//" + fileName, 'r') as f:
 		
 		
 
-	f.close()
+	fExe.close()
 	
