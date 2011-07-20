@@ -25,7 +25,7 @@ elif (sys.argv.__len__() == 3):
 	workPath = sys.argv[1];
 	fileName = sys.argv[2];	
 else:
-  print "Must provide symbol and days going back.  for example: yhoo 1000"
+  print "Incorrect parametesr provided"
   exit()
 
 with open(workPath + "//" + fileName, 'r') as f:
