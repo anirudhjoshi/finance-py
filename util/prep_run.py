@@ -65,7 +65,10 @@ with open(workPath + "//" + fileName, 'r') as f:
 			for index in range(1,N):
 				print "\t%s = %s" % ( header[index], cols[index])
 				parameter = doc.createElement("parameter")
-				parameter.setAttribute("name", header[index])
+				# can acces two ways,  by attribute or ID (both have use the same string
+				parameter.setAttribute("name", header[index])				
+				parameter.setAttribute("id", str(header[index]) )
+				parameter.setIdAttribute("id")
 				parameter.setAttribute("value", cols[index])
 				top.appendChild(parameter)
 			if(individualTestDir ==True):

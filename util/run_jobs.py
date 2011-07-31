@@ -58,3 +58,13 @@ while(jobsSubmitted< numCommands):
 			jobsSubmitted  = jobsSubmitted +1;
 			print command
 			v_procH[index] = subprocess.Popen(command)
+
+
+done = False;
+while(done == False):
+	status = True;
+	for index in range(0, numCpus):
+		# check to ensure equality is still met, since there is a for loop. 
+		status = status  & (v_procH[index].poll() == None) 
+	if(status == True):
+		done = True

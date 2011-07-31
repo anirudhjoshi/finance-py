@@ -23,14 +23,16 @@ else:
 
 
 testNameList = list();
-with open(workPath + "//" + fileName, 'r') as f:
-	reader = csv.reader(f)
-	rowIndex =  0;
+f = open(workPath + "//" + fileName, 'r') 
+reader = csv.reader(f)
 	
-	for row in reader:
-		if(rowIndex  != 0):					
-			testNameList.append(row[0])
-		rowIndex = rowIndex +1;
+rowIndex =  0;	
+for row in reader:		
+	#if(rowIndex  != 0):					
+	testNameList.append(row[0])
+	rowIndex = rowIndex +1;
+f.close()
+
 
 docOut = xml.dom.minidom.Document()
 cc1 = docOut.createComment("license:License")
@@ -45,6 +47,8 @@ for testCase in testNameList:
 	doc = xml.dom.minidom.parse(workPathTemp  + "//results.xml")
 	final = doc.getElementsByTagName("final")[0]
 	final.setAttribute("name", testCase);
+	final.setAttribute("id", str(testCase) )
+	final.setIdAttribute("id")
 	v_attr = final.attributes
 	top.appendChild(final);
 	print final.toprettyxml()
