@@ -77,7 +77,7 @@ with open(workPath + "//" + fileName, 'r') as f:
 			else:
 				f = open(workPathTemp + "//" + cols[0] + ".xml",'w');
 				fExe.write( executableName + " " + workPathTemp +" " +  cols[0] + ".xml\n");
-			doc.writexml(f);
+			doc.writexml(f, addindent="\t",newl="\n");
 			f.close()
 		
 		

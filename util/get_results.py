@@ -28,8 +28,8 @@ reader = csv.reader(f)
 	
 rowIndex =  0;	
 for row in reader:		
-	#if(rowIndex  != 0):					
-	testNameList.append(row[0])
+	if(rowIndex  != 0):					
+		testNameList.append(row[0])
 	rowIndex = rowIndex +1;
 f.close()
 
@@ -57,5 +57,5 @@ for testCase in testNameList:
 		v_attr.values()[index].value
 		
 f = open(workPath + "//" + "results.xml",'w')
-docOut.writexml(f);
+docOut.writexml(f, addindent="\t",newl="\n");
 f.close()		
