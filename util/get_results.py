@@ -12,6 +12,8 @@
 import sys
 import xml.dom.minidom
 import csv
+import time
+verbose = False
 
 workPath = '.'
 if (sys.argv.__len__() == 3):
@@ -42,19 +44,30 @@ docOut.appendChild(cc2)
 top = docOut.createElement("Results")
 docOut.appendChild(top)
 
-for testCase in testNameList:	
-	workPathTemp = workPath + "//" + testCase;
-	doc = xml.dom.minidom.parse(workPathTemp  + "//results.xml")
-	final = doc.getElementsByTagName("final")[0]
-	final.setAttribute("name", testCase);
-	final.setAttribute("id", str(testCase) )
-	final.setIdAttribute("id")
-	v_attr = final.attributes
-	top.appendChild(final);
-	print final.toprettyxml()
-	for index in range(0, v_attr.length):
-		v_attr.values()[index].name
-		v_attr.values()[index].value
+
+for testIndex in range(0, rowIndex - 1):
+	try:
+		print testIndex	
+		testCase = testNameList[testIndex]
+		workPathTemp = workPath + "//" + testCase;
+		doc = xml.dom.minidom.parse(workPathTemp  + "//results.xml")
+		final = doc.getElementsByTagName("final")[0]
+		final.setAttribute("name", testCase);
+		final.setAttribute("id", str(testCase) )
+		final.setIdAttribute("id")
+		v_attr = final.attributes
+		top.appendChild(final);
+		if( verbose ):
+			print final.toprettyxml()		
+		for index in range(0, v_attr.length):
+			v_attr.values()[index].name
+			v_attr.values()[index].value
+		testIndex = testIndex + 1;			
+	except:
+		time.sleep(1)
+	
+	doc.unlink(); 
+	#final.unlink();
 		
 f = open(workPath + "//" + "results.xml",'w')
 docOut.writexml(f, addindent="\t",newl="\n");

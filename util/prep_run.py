@@ -15,6 +15,8 @@ from xml.dom.minidom import Document
 #
 ##
 
+verbose = False;
+
 # True --> each test case will get a unique directory, but output xml will allways be called parameters.xml
 individualTestDir = True;
 executableName = "python c:\\owc\\dvg_study\\src\\backtest\\tester.py"
@@ -40,7 +42,8 @@ with open(workPath + "//" + fileName, 'r') as f:
 			N = size(header)
 		else:
 			cols = row#.split(',')
-			print cols[0]
+			if(verbose ):
+				print cols[0]
 			
 			# Create the minidom document
 			doc = Document()
@@ -61,9 +64,10 @@ with open(workPath + "//" + fileName, 'r') as f:
 				os.mkdir(workPathTemp)
 			else:
 				workPathTemp = workPath
-			
+			print rowIndex
 			for index in range(1,N):
-				print "\t%s = %s" % ( header[index], cols[index])
+				if(verbose ):
+					print "\t%s = %s" % ( header[index], cols[index])
 				parameter = doc.createElement("parameter")
 				# can acces two ways,  by attribute or ID (both have use the same string
 				parameter.setAttribute("name", header[index])				
