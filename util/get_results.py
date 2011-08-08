@@ -16,12 +16,17 @@ import time
 verbose = False
 
 workPath = '.'
+outputName ="results.xml"
 if (sys.argv.__len__() == 3):
 	workPath = sys.argv[1];
 	fileName = sys.argv[2];	
+elif(sys.argv.__len__() == 4):
+	workPath = sys.argv[1];
+	fileName = sys.argv[2];	
+	outputName = sys.argv[3];
 else:
 	print "Incorrect parametesr provided"
-	exiit()
+	exit()
 
 
 testNameList = list();
@@ -69,6 +74,6 @@ for testIndex in range(0, rowIndex - 1):
 	doc.unlink(); 
 	#final.unlink();
 		
-f = open(workPath + "//" + "results.xml",'w')
+f = open(workPath + "//" + outputName,'w')
 docOut.writexml(f, addindent="\t",newl="\n");
 f.close()		
